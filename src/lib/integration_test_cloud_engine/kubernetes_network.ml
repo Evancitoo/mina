@@ -330,19 +330,21 @@ module Node = struct
     get_balance ()
 
   (* if we expect failure, might want retry_on_graphql_error to be false *)
-  let send_payment ?(retry_on_graphql_error = true) ~logger t ~sender ~receiver
-      ~amount ~fee =
+  let send_payment ?(retry_on_graphql_error = true) ~logger t ~sender_pub_key
+      ~receiver_pub_key ~amount ~fee =
     [%log info] "Sending a payment"
       ~metadata:
         [("namespace", `String t.namespace); ("pod_id", `String t.pod_id)] ;
     let open Malleable_error.Let_syntax in
-    let sender_pk_str = Signature_lib.Public_key.Compressed.to_string sender in
+    let sender_pk_str =
+      Signature_lib.Public_key.Compressed.to_string sender_pub_key
+    in
     [%log info] "send_payment: unlocking account"
       ~metadata:[("sender_pk", `String sender_pk_str)] ;
     let unlock_sender_account_graphql () =
       let unlock_account_obj =
         Graphql.Unlock_account.make ~password:"naughty blue worm"
-          ~public_key:(Graphql_lib.Encoders.public_key sender)
+          ~public_key:(Graphql_lib.Encoders.public_key sender_pub_key)
           ()
       in
       exec_graphql_request ~logger ~node:t
@@ -352,8 +354,8 @@ module Node = struct
     let send_payment_graphql () =
       let send_payment_obj =
         Graphql.Send_payment.make
-          ~sender:(Graphql_lib.Encoders.public_key sender)
-          ~receiver:(Graphql_lib.Encoders.public_key receiver)
+          ~sender:(Graphql_lib.Encoders.public_key sender_pub_key)
+          ~receiver:(Graphql_lib.Encoders.public_key receiver_pub_key)
           ~amount:(Graphql_lib.Encoders.amount amount)
           ~fee:(Graphql_lib.Encoders.fee fee)
           ()

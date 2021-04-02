@@ -65,7 +65,7 @@ module Make (Inputs : Intf.Test.Inputs_intf) = struct
     let amount = Currency.Amount.of_int 300_000_000_000 in
     let payment_or_error =
       Node.send_payment ~retry_on_graphql_error:false ~logger sender_bp
-        ~sender:sender_pub_key ~receiver:receiver_pub_key ~amount ~fee
+        ~sender_pub_key ~receiver_pub_key ~amount ~fee
     in
     let%bind () =
       match%bind.Async_kernel.Deferred.Let_syntax payment_or_error with
@@ -82,8 +82,8 @@ module Make (Inputs : Intf.Test.Inputs_intf) = struct
     [%log info] "Waiting for payment to appear in breadcrumb" ;
     let%bind () =
       wait_for t
-        (Wait_condition.payment_to_be_included_in_frontier
-           ~sender:sender_pub_key ~receiver:receiver_pub_key ~amount)
+        (Wait_condition.payment_to_be_included_in_frontier ~sender_pub_key
+           ~receiver_pub_key ~amount)
     in
     [%log info] "Got breadcrumb with desired payment" ;
     [%log info]
@@ -91,7 +91,7 @@ module Make (Inputs : Intf.Test.Inputs_intf) = struct
     let amount' = Currency.Amount.of_int 600_000_000_000 in
     let payment_or_error =
       Node.send_payment ~retry_on_graphql_error:false ~logger sender_bp
-        ~sender:sender_pub_key ~receiver:receiver_pub_key ~amount:amount' ~fee
+        ~sender_pub_key ~receiver_pub_key ~amount:amount' ~fee
     in
     let%map () =
       match%bind.Async_kernel.Deferred.Let_syntax payment_or_error with
