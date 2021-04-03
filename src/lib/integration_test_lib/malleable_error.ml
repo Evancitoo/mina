@@ -80,6 +80,16 @@ let of_string_hard_error message =
 let of_string_hard_error_format format =
   Printf.ksprintf of_string_hard_error format
 
+let of_string_soft_error message ~res =
+  Deferred.return
+    (Ok
+       { Accumulator.computation_result= res
+       ; soft_errors= [Test_error.raw_internal_error (Error.of_string message)]
+       })
+
+let of_string_soft_error_format format res =
+  Printf.ksprintf (of_string_soft_error ~res) format
+
 let soft_error res err =
   Deferred.return
     (Ok
