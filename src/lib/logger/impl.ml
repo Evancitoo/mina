@@ -47,6 +47,13 @@ module Metadata = struct
         | _ ->
             Error "Unexpected object"
 
+      let layout_t =
+        { Ppx_version_runtime.Bin_prot_layout.layout_loc= __LOC__
+        ; version_opt= None
+        ; type_decl= "Yojson.Safe.t String.Map.t"
+        ; bin_io_derived= false
+        ; bin_prot_rule= Ppx_version_runtime.Bin_prot_rule.String }
+
       include Binable.Of_binable
                 (Core_kernel.String.Stable.V1)
                 (struct

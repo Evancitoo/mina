@@ -6,8 +6,11 @@ module Stable = struct
     type t =
       { trust: float
       ; trust_last_updated: Core.Time.Stable.V1.t
-      ; banned_until_opt: Core.Time.Stable.V1.t Core_kernel.Option.Stable.V1.t
-      }
+            [@layout Bin_prot_layouts.core_time_stable_v1]
+      ; banned_until_opt:
+          (Core.Time.Stable.V1.t[@layout Bin_prot_layouts.core_time_stable_v1])
+          Core_kernel.Option.Stable.V1.t
+            [@layout Bin_prot_layouts.core_kernel_option_stable_v1] }
 
     let to_latest = Fn.id
   end
