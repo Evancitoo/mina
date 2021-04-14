@@ -64,6 +64,8 @@ module Stable :
   sig
     module V1 : sig
       type t [@@deriving sexp, bin_io, yojson, version]
+
+      val layout_t : Ppx_version_runtime.Bin_prot_layout.t
     end
   end
   with type V1.t = t

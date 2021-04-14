@@ -39,11 +39,32 @@ let core_kernel_option_stable_v1 =
       Ppx_version_runtime.Bin_prot_rule.(
         With_type_variables (["a"], Option (Type_var "a"))) }
 
+let core_kernel_string_stable_v1 =
+  { Ppx_version_runtime.Bin_prot_layout.layout_loc= "None"
+  ; version_opt= None
+  ; type_decl= "Core_kernel.Option.Stable.V1.t"
+  ; bin_io_derived= true
+  ; bin_prot_rule=
+      Ppx_version_runtime.Bin_prot_rule.(
+        With_type_variables (["a"], Option (Type_var "a"))) }
+
 let core_kernel_md5_stable_v1 =
   { Ppx_version_runtime.Bin_prot_layout.layout_loc= "None"
   ; version_opt= None
   ; type_decl= "Core_kernel.Md5.Stable.V1.t"
   ; bin_io_derived= true
-  ; bin_prot_rule=
-      Ppx_version_runtime.Bin_prot_rule.(
-        With_type_variables (["a"], Option (Type_var "a"))) }
+  ; bin_prot_rule= Ppx_version_runtime.Bin_prot_rule.String }
+
+let int64 =
+  { Ppx_version_runtime.Bin_prot_layout.layout_loc= "None"
+  ; version_opt= None
+  ; type_decl= "Core_kernel.Int64.t"
+  ; bin_io_derived= true
+  ; bin_prot_rule= Ppx_version_runtime.Bin_prot_rule.Int64 }
+
+let core_kernel_bigstring_v1 =
+  { Ppx_version_runtime.Bin_prot_layout.layout_loc= "None"
+  ; version_opt= None
+  ; type_decl= "Core_kernel.Bigstring.Stable.V1.t"
+  ; bin_io_derived= true
+  ; bin_prot_rule= Ppx_version_runtime.Bin_prot_rule.Bigstring }

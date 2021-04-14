@@ -24,6 +24,8 @@ module Digest = struct
 
       let to_latest = Fn.id
 
+      let layout_t = Bin_prot_layouts.core_kernel_string_stable_v1
+
       include Binable.Of_binable
                 (Core_kernel.String.Stable.V1)
                 (struct
