@@ -112,6 +112,13 @@ module UInt64 = struct
 
         let of_binable = Unsigned.UInt64.of_int64
       end)
+
+      let layout_t =
+        { Ppx_version_runtime.Bin_prot_layout.layout_loc= __LOC__
+        ; version_opt= Some 1
+        ; type_decl= "Unsigned.UInt64.t"
+        ; bin_io_derived= false
+        ; bin_prot_rule= Ppx_version_runtime.Bin_prot_rule.Int64 }
     end
   end]
 
