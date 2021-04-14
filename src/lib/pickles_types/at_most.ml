@@ -114,7 +114,8 @@ module At_most_2 = struct
     module V1 = struct
       type 'a t = ('a, Nat.N2.n) at_most
 
-      let layout_t = {list_layout with layout_loc= __LOC__; version_opt= Some 1}
+      (* the layout for the versioned type is generated *)
+      let layout_t = {list_layout with layout_loc= __LOC__}
 
       include Binable.Of_binable1
                 (Core_kernel.List.Stable.V1)
@@ -145,7 +146,8 @@ module At_most_8 = struct
     module V1 = struct
       type 'a t = ('a, Nat.N8.n) at_most
 
-      let layout_t = {list_layout with layout_loc= __LOC__; version_opt= Some 1}
+      (* the layout for the versioned type is generated *)
+      let layout_t = {list_layout with layout_loc= __LOC__}
 
       include Binable.Of_binable1
                 (Core_kernel.List.Stable.V1)
