@@ -62,6 +62,15 @@ let int64 =
   ; bin_io_derived= true
   ; bin_prot_rule= Ppx_version_runtime.Bin_prot_rule.Int64 }
 
+let core_kernel_list_v1 =
+  { Ppx_version_runtime.Bin_prot_layout.layout_loc= "None"
+  ; version_opt= None
+  ; type_decl= "'a Core_kernel.List.Stable.V1.t"
+  ; bin_io_derived= true
+  ; bin_prot_rule=
+      Ppx_version_runtime.Bin_prot_rule.(
+        With_type_variables (["a"], List (Type_var "a"))) }
+
 let core_kernel_bigstring_v1 =
   { Ppx_version_runtime.Bin_prot_layout.layout_loc= "None"
   ; version_opt= None

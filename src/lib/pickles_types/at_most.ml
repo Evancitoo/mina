@@ -97,15 +97,6 @@ let typ ~padding elt n =
   let back v = of_vector v lte in
   Vector.typ elt n |> Snarky_backendless.Typ.transport ~there ~back
 
-let list_layout =
-  { Ppx_version_runtime.Bin_prot_layout.layout_loc= __LOC__
-  ; version_opt= None
-  ; type_decl= "'a t = ('a, Nat.N2.n) at_most"
-  ; bin_io_derived= false
-  ; bin_prot_rule=
-      Ppx_version_runtime.Bin_prot_rule.(
-        With_type_variables (["a"], List (Type_var "a"))) }
-
 module At_most_2 = struct
   [%%versioned_binable
   module Stable = struct
@@ -114,11 +105,10 @@ module At_most_2 = struct
     module V1 = struct
       type 'a t = ('a, Nat.N2.n) at_most
 
-      (* the layout for the versioned type is generated *)
-      let layout_t = {list_layout with layout_loc= __LOC__}
-
       include Binable.Of_binable1
-                (Core_kernel.List.Stable.V1)
+                (Core_kernel.List.Stable.V1 [@layout
+                                              Bin_prot_layouts
+                                              .core_kernel_list_v1])
                 (struct
                   type nonrec 'a t = 'a t
 
@@ -146,11 +136,10 @@ module At_most_8 = struct
     module V1 = struct
       type 'a t = ('a, Nat.N8.n) at_most
 
-      (* the layout for the versioned type is generated *)
-      let layout_t = {list_layout with layout_loc= __LOC__}
-
       include Binable.Of_binable1
-                (Core_kernel.List.Stable.V1)
+                (Core_kernel.List.Stable.V1 [@layout
+                                              Bin_prot_layouts
+                                              .core_kernel_list_v1])
                 (struct
                   type nonrec 'a t = 'a t
 
